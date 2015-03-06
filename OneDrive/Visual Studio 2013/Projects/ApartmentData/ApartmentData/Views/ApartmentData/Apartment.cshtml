@@ -1,0 +1,79 @@
+﻿@model ApartmentData.Models.ApartmentViewModel
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Apartment";
+}
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBl3ZGWAnwAg5ctxV7rux_eUEZudvDjXrk"></script>
+
+
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-xs-12">
+            <div id="map-canvas"></div>
+        </div>
+    </div>
+    <div class="row"> 
+        <div class="col-xs-6">
+            <div class="grid-style">
+                <p class="lead">
+                    Select an apartment or click on the map, then enter address of workplace
+                </p>
+
+                    @using (Ajax.BeginForm("ApartmentGrid", "ApartmentData", new AjaxOptions { UpdateTargetId="gridDisplay", InsertionMode = InsertionMode.Replace}, new { @id = "myForm" }))
+                    {
+                        @Html.CheckBoxListFor(
+                            m => m.PostedApartments.ApartmentIds,
+                            m => m.ApartmentsAvailable,
+                            m => m.ID,
+                            m => m.Name + " " + m.City,
+                            m => m.ApartmentsSelected,
+                            new MvcCheckBoxList.Model.HtmlListInfo(MvcCheckBoxList.Model.HtmlTag.table),
+                            m => new { @data_address = m.Address }
+                        )
+                        <input type="submit" id="submitApts" name="submitApts" class="btn btn-primary btn-group" value="OK" />
+                    }
+                
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class= "grid-style">
+                <div class="lead">
+                    @Html.Label("Work Place Address:")
+                </div>
+                @using (Html.BeginForm("Apartment", "ApartmentData", FormMethod.Post, new { @id = "submitWorkAddress", @class = "form-inline" }))
+                {
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                @Html.TextBoxFor(m => m.WorkPlaceAddress)
+                                <input type="submit" id="submitInfo" name="submitInfo" class="btn btn-primary btn-lg" value="OK" />
+                            </div>
+                        </div>
+                    </div>
+                    @Html.ActionLink("Print Distances", "Distances", null, new { id= "distancesLink"})
+
+                    @Html.ActionLink("Delete Route", "Apartment", "ApartmentData", new { id = Model.WorkPlaceAddress }, new { onclick = "removeRoute();" })
+                }
+
+
+            </div>
+        </div>
+        <div id="outputdistances">
+            @Html.Partial("_DistancesPartialView")
+        </div>
+        <div id="gridDisplay">
+            @Html.Partial("_ApartmentGrid")
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    Developed by Patrick Messina
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/googlemaps")
+}

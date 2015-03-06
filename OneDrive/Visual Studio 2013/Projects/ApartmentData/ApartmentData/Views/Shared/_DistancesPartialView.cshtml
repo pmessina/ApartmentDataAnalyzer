@@ -1,0 +1,21 @@
+﻿@model ApartmentData.Models.ApartmentViewModel
+
+@if (Model != null && Model.DistancesFromWork != null)
+{
+    <table>
+
+        @foreach (var m in Model.DistancesFromWork)
+        {
+            <tr>
+                <td>
+                    @m.Address
+                </td>
+                <td>
+                    @m.Distance
+                </td>
+            </tr>
+        }
+               
+    </table>
+}
+    

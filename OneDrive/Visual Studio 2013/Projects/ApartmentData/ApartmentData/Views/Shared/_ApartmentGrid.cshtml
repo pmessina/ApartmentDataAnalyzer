@@ -1,0 +1,18 @@
+﻿@model ApartmentData.Models.ApartmentViewModel
+
+@using GridMvc.Html
+<div class="row">
+    <div class="col-md-12">
+        @if (Model != null)
+        {
+            @Html.Grid(Model.ApartmentsSelected).Columns(columns =>
+                    {
+                        columns.Add(f => f.Name).Titled("Name").SetWidth(110);
+                        columns.Add(f => f.Address).Titled("Address").SetWidth(110);
+                        columns.Add(f => f.Rating).Titled("Rating").SetWidth(110);
+                        //Todo: Distance between work place
+                    }).WithPaging(20)
+        }
+    </div>
+</div>
+
