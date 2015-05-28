@@ -1,7 +1,7 @@
 # ApartmentDataRepository
 
 Purpose: 
-The idea of the Apartment Data project is to compare apartment data prices and square footage.
+The idea of the Apartment Data project is to compare distances from the work place to different plot points on a google map.  In addition, I would like to compare apartment rent prices and square footage.
 
 Functionality: 
 
